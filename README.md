@@ -259,6 +259,8 @@ cd ~
 curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
 ```
 
+If it crashes, burn a new SD, do the first boot with the PiSugar3 disconnected, be extra careful not to short it as it tends to stay live when bricked. Once the system is done booting, power off, connect the PiSugar3 and restart. Try the update process again, if it hangs, use the reset buttons close to the battery level leds. I had it happen and that fixed it.
+
 Setup the RTC in the boot.txt
 
 ```
