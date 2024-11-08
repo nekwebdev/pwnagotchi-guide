@@ -240,13 +240,8 @@ Power the pwnagotchi with the PiSugar3, then connect to Windows PC after it boot
 
 Enable I2C
 ```
-sudo raspi-config
+raspi-config
 ```
-Interface Options > I2C
-
-Reboot
-
-`sudo reboot`
 
 Install power manager
 ```
@@ -254,7 +249,7 @@ cd ~
 curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
 ```
 
-Edit settings, go to [PiSugar Web UI](http://10.0.0.2:8421) Login `pwnagotchi / pwnagotchi`
+Edit settings, go to [PiSugar Web UI](http://10.0.0.2:8421)
 
 Set the Safe Shutdown values (20%/10s), go to settings and enable `Battery Input Protection` and `Soft Shutdown`. Set `Long Tap` to `Shutdown` and `Soft Shutdown Shell` to `Shutdown` 
 
