@@ -90,7 +90,7 @@ First stop the pwnagotchi service
 
 `sudo service pwnagotchi stop`
 
-Edit/Create the config.toml file that should only contain the `main.name` entry.
+Edit/Create the `config.toml` file that should only contain the `main.name` entry.
 
 `sudo vim /etc/pwnagotchi/config.toml`
 
@@ -201,7 +201,29 @@ ui.web.username = "changeme"
 ui.web.password = "changeme"
 ```
 
-Restart the pwnagotchi service
+Edit/Create the `tweak_view.json` file.
+
+`sudo vim /etc/pwnagotchi/tweak_view.json`
+
+```
+{
+    "VSS.bluetooth.xy": "114,0",
+    "VSS.bat.xy": "140,0",
+    "VSS.clock1.xy": "138,96",
+    "VSS.clock2.xy": "188,96",
+    "VSS.Exp.label_spacing": 2,
+    "VSS.connection_status.label": "WWW",
+    "VSS.connection_status.xy": "84,0",
+    "VSS.status.xy": "135,20",
+    "VSS.deauth_count.label_spacing": 4,
+    "VSS.assoc_count.label_spacing": 4,
+    "VSS.clock2.label": "-",
+    "VSS.clock2.label_spacing": 2,
+    "VSS.bat.label": "BAT"
+}
+```
+
+Start the pwnagotchi service
 
 `sudo service pwnagotchi start`
 
@@ -232,34 +254,18 @@ Restart the pwnagotchi service
 
 `pwnkill`
 
-You can now mount the LCD and PiSugar battery pack.
+**Mount the LCD and PiSugar battery pack.**
 
 ## PiSugar 3 config
 
 Power the pwnagotchi with the PiSugar3, then connect to Windows PC after it boots
 
-Enable I2C
+### Enable I2C
 ```
-raspi-config
+sudo raspi-config
 ```
 
-Install power manager
-```
-curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
-```
-I had issues with prompts during the install script not working, it worked doing this:
-```
-sudo -i
-cd ~
-wget http://cdn.pisugar.com/release/pisugar-power-manager.sh
-chmod +x pisugar-power-manager.sh
-./pisugar-power-manager.sh
-```
-Edit settings, go to [PiSugar Web UI](http://10.0.0.2:8421)
-
-Set `Long Tap` to `Shutdown` and the `Safe Shutdown values` (20%/10s), go to settings and enable `Battery Input Protection` and `Soft Shutdown`. Set `Soft Shutdown Shell` to `Shutdown` 
-
-Now update the PiSugar firmware
+### Update the PiSugar firmware
 ```
 cd ~
 curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
@@ -274,9 +280,36 @@ chmod +x PiSugarUpdate.sh
 ```
 If it crashes, burn a new SD, do the first boot with the PiSugar3 disconnected, be extra careful not to short it as it tends to stay live when bricked. Once the system is done booting, power off, connect the PiSugar3 and restart. Try the update process again, if it hangs, use the reset buttons close to the battery level leds. I had it happen and that fixed it.
 
+### Install power manager
+```
+curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
+```
+I had issues with prompts during the install script not working, it worked doing this:
+```
+sudo -i
+cd ~
+wget http://cdn.pisugar.com/release/pisugar-power-manager.sh
+chmod +x pisugar-power-manager.sh
+./pisugar-power-manager.sh
+```
 Setup the RTC in the boot.txt
 
+`sudo vim /boot/firmware/config.txt`
+
+Add at the end of the file in the `[all]` section.
 ```
 # Enable real-time clock
 dtoverlay=i2c-rtc,ds3231
 ```
+
+Reboot `sudo reboot`
+
+### Configure the PiSugar 3
+
+Edit settings, go to [PiSugar Web UI](http://10.0.0.2:8421)
+
+Set `Long Tap` to `Shutdown` and the `Safe Shutdown values` (20%/10s). Refresh the RTC time and choose `Web > Pi & RPC`.
+
+Go to settings and enable `Battery Input Protection` and `Soft Shutdown`. Set `Soft Shutdown Shell` to `Shutdown` 
+
+
