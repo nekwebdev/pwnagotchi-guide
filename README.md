@@ -245,20 +245,33 @@ raspi-config
 
 Install power manager
 ```
-cd ~
 curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
 ```
-
+I had issues with prompts during the install script not working, it worked doing this:
+```
+sudo -i
+cd ~
+wget http://cdn.pisugar.com/release/pisugar-power-manager.sh
+chmod +x pisugar-power-manager.sh
+./pisugar-power-manager.sh
+```
 Edit settings, go to [PiSugar Web UI](http://10.0.0.2:8421)
 
-Set the Safe Shutdown values (20%/10s), go to settings and enable `Battery Input Protection` and `Soft Shutdown`. Set `Long Tap` to `Shutdown` and `Soft Shutdown Shell` to `Shutdown` 
+Set `Long Tap` to `Shutdown` and the `Safe Shutdown values` (20%/10s), go to settings and enable `Battery Input Protection` and `Soft Shutdown`. Set `Soft Shutdown Shell` to `Shutdown` 
 
 Now update the PiSugar firmware
 ```
 cd ~
 curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
 ```
-
+This also might be the safer option
+```
+sudo -i
+cd ~
+wget http://cdn.pisugar.com/release/PiSugarUpdate.sh
+chmod +x PiSugarUpdate.sh
+./PiSugarUpdate.sh
+```
 If it crashes, burn a new SD, do the first boot with the PiSugar3 disconnected, be extra careful not to short it as it tends to stay live when bricked. Once the system is done booting, power off, connect the PiSugar3 and restart. Try the update process again, if it hangs, use the reset buttons close to the battery level leds. I had it happen and that fixed it.
 
 Setup the RTC in the boot.txt
